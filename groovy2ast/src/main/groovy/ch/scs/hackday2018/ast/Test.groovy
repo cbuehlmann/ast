@@ -13,6 +13,9 @@ class Test {
 
   @Marker
   def calculate(int a, int b) {
+    if (b > 3) {
+      return a * 4 - b
+    }
     return a * 3 + b
   }
 

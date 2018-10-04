@@ -22,6 +22,10 @@ class CodeVisitor extends CodeVisitorSupport {
           log("$parameter.name: ${parameter.type.name}")
         }
       }
+      log("Returns")
+      shift {
+        log("${method.returnType.name}")
+      }
       code.visit(this)
     }
   }
@@ -75,7 +79,7 @@ class CodeVisitor extends CodeVisitorSupport {
 
   @Override
   void visitVariableExpression(VariableExpression expression) {
-    log("Variable: $expression.name with type: $expression.type")
+    log("Variable: $expression.name with type: ${expression.type}")
   }
 
   @Override
@@ -93,6 +97,33 @@ class CodeVisitor extends CodeVisitorSupport {
       log("Arguments")
       shift {
         call.getArguments().visit(this);
+      }
+    }
+  }
+
+  @Override
+  void visitReturnStatement(ReturnStatement statement) {
+    log("Return")
+    shift {
+      super.visitReturnStatement(statement)
+    }
+  }
+
+  @Override
+  void visitIfElse(IfStatement ifElse) {
+    log("If")
+    shift {
+      ifElse.getBooleanExpression().visit(this)
+    }
+    log("Then")
+    shift {
+      ifElse.getIfBlock().visit(this)
+    }
+    Statement elseBlock = ifElse.getElseBlock();
+    if (!(elseBlock instanceof EmptyStatement)) {
+      log("Else")
+      shift {
+        elseBlock.visit(this);
       }
     }
   }
