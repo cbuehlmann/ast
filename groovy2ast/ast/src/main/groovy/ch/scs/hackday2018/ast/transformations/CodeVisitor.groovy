@@ -11,7 +11,7 @@ class CodeVisitor extends CodeVisitorSupport {
   private int intentation = 0;
 
   void printMethod(MethodNode method) {
-    log("Method: $method.name")
+    log("Method: $method.name declared in $method.declaringClass.name")
     Statement code = method.code
     println(code.text)
 
@@ -84,7 +84,12 @@ class CodeVisitor extends CodeVisitorSupport {
 
   @Override
   void visitMethodCallExpression(MethodCallExpression call) {
-    log("Call: $call.methodAsString")
+    def target = call.methodTarget
+    if (target == null) {
+      log("Call method '$call.methodAsString' (dispatched at runtime)")
+    } else {
+      log("Call method '$target.name' declared in $target.declaringClass.name")
+    }
     shift {
       log("On Object")
       shift {
