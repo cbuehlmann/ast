@@ -1,0 +1,13 @@
+plugins {
+  id 'groovy'
+}
+
+repositories {
+   mavenCentral()
+}
+
+dependencies {
+  implementation 'org.codehaus.groovy:groovy:2.5.2'
+  testImplementation 'org.spockframework:spock-core:1.2-groovy-2.5'
+}
+

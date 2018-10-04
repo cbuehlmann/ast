@@ -1,0 +1,20 @@
+plugins {
+  id 'application'
+  id 'groovy'
+}
+
+mainClassName = 'ch.scs.hackday2018.ast.Main'
+
+repositories {
+   mavenCentral()
+}
+
+dependencies {
+  implementation project('ast')
+  implementation 'org.codehaus.groovy:groovy:2.5.2'
+  testImplementation 'org.spockframework:spock-core:1.2-groovy-2.5'
+}
+
+wrapper {
+  gradleVersion = '4.10.2'
+}
