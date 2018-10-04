@@ -17,15 +17,7 @@ class ExampleTransformation extends AbstractASTTransformation {
 
     MethodNode method = (MethodNode) astNodes[1]
 
-    printMethod(method)
-  }
-
-  void printMethod(MethodNode method) {
-    println("Method $method.name")
-    Statement code = method.code
-    println(code.text)
-
     def visitor = new CodeVisitor()
-    code.visit(visitor)
+    visitor.printMethod(method)
   }
 }
