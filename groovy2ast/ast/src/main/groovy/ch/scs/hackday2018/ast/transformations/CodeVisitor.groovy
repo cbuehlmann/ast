@@ -130,7 +130,7 @@ class CodeVisitor extends CodeVisitorSupport {
 
   @Override
   void visitConstantExpression(ConstantExpression expression) {
-    log("Constant: $expression.text")
+    log("Constant: '$expression.text'")
     super.visitConstantExpression(expression)
   }
 }

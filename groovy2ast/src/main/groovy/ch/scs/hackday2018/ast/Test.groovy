@@ -1,18 +1,20 @@
 package ch.scs.hackday2018.ast
 
 import ch.scs.hackday2018.ast.transformations.Marker
+import groovy.transform.CompileStatic
 
+@CompileStatic
 class Test {
 
   @Marker
-  def run() {
+  void run() {
     println 'Running main'
     int x = calculate(5, 4)
     println("The value is: $x")
   }
 
   @Marker
-  def calculate(int a, int b) {
+  int calculate(int a, int b) {
     if (b > 3) {
       return a * 4 - b
     }
