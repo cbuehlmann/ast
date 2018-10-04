@@ -1,0 +1,14 @@
+import org.gradle.internal.jvm.Jvm
+
+plugins {
+  id 'java'
+}
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  compileOnly files(Jvm.current().toolsJar)
+}
+
