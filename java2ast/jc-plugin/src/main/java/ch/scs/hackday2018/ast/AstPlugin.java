@@ -12,5 +12,6 @@ public class AstPlugin implements Plugin {
   @Override
   public void init(JavacTask javacTask, String... strings) {
     System.err.println("astplugin initialized");
+    javacTask.addTaskListener(new AstTaskListener());
   }
 }

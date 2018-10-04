@@ -9,14 +9,12 @@ repositories {
 }
 
 dependencies {
-  //annotationProcessor files('jc-plugin/build/libs/jc-plugin.jar')
   annotationProcessor project('jc-plugin')
 }
 
 compileJava {
   options.compilerArgs += ['-Xplugin:astplugin']
 }
-//compileJava.dependsOn 'jc-plugin:assemble'
 
 wrapper {
   gradleVersion = '4.10.2'
