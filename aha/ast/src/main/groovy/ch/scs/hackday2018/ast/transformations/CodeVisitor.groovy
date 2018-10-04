@@ -1,12 +1,30 @@
 package ch.scs.hackday2018.ast.transformations
 
 import org.codehaus.groovy.ast.CodeVisitorSupport
+import org.codehaus.groovy.ast.MethodNode
+import org.codehaus.groovy.ast.Parameter
 import org.codehaus.groovy.ast.expr.*
 import org.codehaus.groovy.ast.stmt.*
 
 class CodeVisitor extends CodeVisitorSupport {
 
-  int intentation = 0;
+  private int intentation = 0;
+
+  void printMethod(MethodNode method) {
+    log("Method: $method.name")
+    Statement code = method.code
+    println(code.text)
+
+    shift {
+      log("Parameters")
+      for (Parameter parameter : method.parameters) {
+        shift {
+          log("$parameter.name: ${parameter.type.name}")
+        }
+      }
+      code.visit(this)
+    }
+  }
 
   void log(String message) {
     for (int i = 0; i < intentation; i++) {
@@ -39,18 +57,49 @@ class CodeVisitor extends CodeVisitorSupport {
   }
 
   @Override
-  void visitDeclarationExpression(DeclarationExpression expression) {
-    log("declare")
+  void visitBinaryExpression(BinaryExpression expression) {
+    log("Operation: ${expression.operation.text}")
     shift {
-      super.visitDeclarationExpression(expression)
+      log("Left")
+      shift {
+        expression.getLeftExpression().visit(this);
+      }
+    }
+    shift {
+      log("Right")
+      shift {
+        expression.getRightExpression().visit(this);
+      }
     }
   }
 
   @Override
+  void visitVariableExpression(VariableExpression expression) {
+    log("Variable: $expression.name with type: $expression.type")
+  }
+
+  @Override
   void visitMethodCallExpression(MethodCallExpression call) {
-    log("Call $call.methodAsString")
+    log("Call: $call.methodAsString")
     shift {
-      super.visitMethodCallExpression(call)
+      log("On Object")
+      shift {
+        call.getObjectExpression().visit(this);
+      }
+      log("Method")
+      shift {
+        call.getMethod().visit(this);
+      }
+      log("Arguments")
+      shift {
+        call.getArguments().visit(this);
+      }
     }
+  }
+
+  @Override
+  void visitConstantExpression(ConstantExpression expression) {
+    log("Constant: $expression.text")
+    super.visitConstantExpression(expression)
   }
 }

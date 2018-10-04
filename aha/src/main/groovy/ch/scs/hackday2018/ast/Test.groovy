@@ -11,6 +11,7 @@ class Test {
     println("The value is: $x")
   }
 
+  @Marker
   def calculate(int a, int b) {
     return a * 3 + b
   }
